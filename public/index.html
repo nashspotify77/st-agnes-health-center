@@ -67,22 +67,6 @@
 
             <!-- actions moved outside collapse so always visible on mobile -->
             <div class="navbar-actions d-flex align-items-center gap-2">
-                <!-- Patient Portal quick link -->
-                <a href="patient-portal.html" class="btn btn-outline-light me-2 d-none d-md-inline-flex align-items-center" data-i18n="nav.portal" style="font-weight:600;">Patient Portal</a>
-
-                <!-- Account dropdown / avatar -->
-                <div class="dropdown">
-                  <button class="btn btn-light dropdown-toggle d-inline-flex align-items-center" id="accountMenuBtn" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Account menu">
-                    <span id="profile-avatar" class="rounded-circle" style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--accent-dark);font-weight:700;">G</span>
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenuBtn">
-                    <li><a class="dropdown-item" href="dashboard.html" data-i18n="account.dashboard">Dashboard</a></li>
-                    <li><button class="dropdown-item" id="open-profile" data-i18n="account.settings" type="button">Account Settings</button></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><button class="dropdown-item text-danger" id="logout-btn" type="button" data-i18n="account.logout">Logout</button></li>
-                  </ul>
-                </div>
-
                  <!-- navbar WhatsApp removed (floating WhatsApp icon remains) -->
                  <div class="lang-toggle d-flex align-items-center">
                      <button type="button" class="btn btn-secondary me-1" onclick="changeLanguage('en')" aria-label="English">EN</button>
