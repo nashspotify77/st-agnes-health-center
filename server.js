@@ -4,38 +4,38 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 import path from 'path';
 import helmet from 'helmet';
-import { fileURLToPath } from 'url'; // Needed for __dirname with ESM
+import { fileURLToPath } from 'url';
 
 const app = express();
-const port = process.env.PORT || 3001; // Using port 3001 as seen in screenshots
+// Vercel dynamically assigns a port, so process.env.PORT is mandatory
+const port = process.env.PORT || 3001; 
 
-// Define __dirname equivalent for ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // --- Middleware Setup ---
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// --- Security Headers (HELMET) FIX: CSP TOTALLY DISABLED ---
-// This permanently removes the Content-Security-Policy header, 
-// which ensures the Calendly widget works and avoids all previous CSP errors.
 app.use(
   helmet({
-    // *** CRITICAL FIX: Disables CSP to ensure Calendly runs ***
     contentSecurityPolicy: false,
-    // Turn off cross-origin protection headers for development ease
     crossOriginEmbedderPolicy: false,
     crossOriginOpenerPolicy: false,
   })
 );
 
-// Removed: express-rate-limit code entirely to fix the PathError on startup.
+// --- Static File Serving FIX ---
+// Use path.join to ensure the server finds the 'public' folder on Vercel's environment
+app.use(express.static(path.join(__dirname, 'public')));
+
+// --- Root Route FIX ---
+// This explicitly sends index.html when someone visits the base URL
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // --- File System & Utility Functions ---
-
-// Ensure data directory exists
 const dataDir = path.join(__dirname, 'data');
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
@@ -85,23 +85,13 @@ function trySendMail(mailOptions) {
   });
 }
 
-
 // --- Routes ---
-
-// Serve static files (assuming your client-side files are in a 'public' folder)
-app.use(express.static('public'));
-
 app.post('/appointment', async (req, res) => {
-  const fullName = sanitizeInput(req.body.fullName || '');
-  const email = sanitizeInput(req.body.email || '');
-  const phone = sanitizeInput(req.body.phone || '');
-  const message = sanitizeInput(req.body.message || '');
-
   const appointment = {
-    fullName,
-    email,
-    phone,
-    message,
+    fullName: sanitizeInput(req.body.fullName || ''),
+    email: sanitizeInput(req.body.email || ''),
+    phone: sanitizeInput(req.body.phone || ''),
+    message: sanitizeInput(req.body.message || ''),
     createdAt: new Date().toISOString()
   };
 
@@ -128,7 +118,6 @@ app.post('/appointment', async (req, res) => {
 });
 
 // --- Server Start ---
-
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
