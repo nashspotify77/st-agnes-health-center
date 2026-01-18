@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title data-i18n="dashboard.title">My Dashboard</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <style>
+    /* small dashboard specific tweaks */
+    .dashboard-hero { padding:32px 20px; margin-top:18px; background:linear-gradient(90deg,#eaf9fb, #f7ffff); border-radius:12px; display:flex; gap:20px; align-items:center; }
+    .dashboard-hero .summary { flex:1; }
+    .dashboard-hero h2 { margin:0 0 8px 0; }
+    .appointments, .services-grid { margin-top:20px; }
+    .service-card { border-radius:12px; padding:18px; text-align:center; background:#fff; box-shadow:0 10px 30px rgba(10,40,40,0.06); }
+    .service-emoji { font-size:36px; display:block; margin-bottom:12px; }
+    .appointments .card { border-radius:12px; }
+    .small-muted { color: #586b6b; font-size:0.95rem; }
+    /* Calendly iframe modal */
+    .calendly-iframe { width:100%; height:640px; border:0; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <!-- ...existing navbar could be added here if desired (kept minimal for this page) ... -->
+  <div class="container">
+    <div class="dashboard-hero">
+      <div class="summary">
+        <h2 id="dashboard-title" data-i18n="dashboard.title">My Dashboard</h2>
+        <p id="dashboard-greeting" class="small-muted">Welcome back</p>
+        <div class="mt-2">
+          <a href="account-settings.html" class="btn btn-outline-primary me-2" data-i18n="account.title">Account Settings</a>
+          <button id="logoutBtn" class="btn btn-danger">Logout</button>
+        </div>
+      </div>
+      <div style="min-width:220px; text-align:right;">
+        <div class="card p-3">
+          <div class="small-muted">Profile</div>
+          <div id="dash-profile" style="font-weight:700; font-size:1.05rem; margin-top:6px;">Guest</div>
+          <div style="font-size:0.95rem;color:#4b6666;">Member since 2023</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="appointments mt-4">
+      <h4 data-i18n="dashboard.upcoming">Upcoming Appointments</h4>
+      <div id="appointments-list" class="row g-3">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <div class="services-grid">
+      <h4 class="mt-4">Services</h4>
+      <div class="row g-3" id="services-cards">
+        <!-- cards populated by JS -->
+      </div>
+      <div class="text-end mt-3">
+        <a href="services.html" class="btn btn-cta-book" data-i18n="dashboard.view_all_services">View All Services</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendly Modal -->
+  <div class="modal fade" id="calModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="calModalTitle">Book Service</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="calendlyWrapper">
+            <!-- we will create an iframe to calendly dynamically -->
+            <iframe id="calendlyIframe" class="calendly-iframe" src="" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer (simple reuse) -->
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="lang.js"></script>
+  <script>
+    // Dashboard page script
+    (function(){
+      const currentUser = localStorage.getItem('currentUser') || null;
+      const users = JSON.parse(localStorage.getItem('users')||'[]');
+      const profileName = document.getElementById('dash-profile');
+      const greeting = document.getElementById('dashboard-greeting');
+
+      function nameOrGuest(){
+        if (!currentUser) return 'Guest';
+        const u = users.find(x=>x.username===currentUser);
+        return u ? u.username : currentUser;
+      }
+      profileName.textContent = nameOrGuest();
+      // greeting text (translated)
+      const lang = localStorage.getItem('lang')||'en';
+      const greetText = (translations[lang] && translations[lang]['dashboard.greeting']) || 'Welcome back, {name}';
+      document.getElementById('dashboard-greeting').textContent = greetText.replace('{name}', nameOrGuest());
+
+      // load appointments (myAppointments)
+      const appts = JSON.parse(localStorage.getItem('myAppointments')||'[]').filter(a=>a.username===currentUser);
+      const appointmentsList = document.getElementById('appointments-list');
+      function renderAppointments(){
+        appointmentsList.innerHTML = '';
+        if (!appts.length){
+          const col = document.createElement('div'); col.className='col-12';
+          col.innerHTML = `<div class="card p-3 text-center small-muted" data-i18n="dashboard.no_appointments">No upcoming appointments.</div>`;
+          appointmentsList.appendChild(col);
+          // apply translations
+          setLanguage(localStorage.getItem('lang')||'en');
+          return;
+        }
+        appts.forEach(a=>{
+          const col = document.createElement('div'); col.className='col-12 col-md-6';
+          col.innerHTML = `<div class="card p-3"><div><strong>${a.service}</strong></div><div class="small-muted">${a.date||'—'}</div><div class="mt-2">${a.notes||''}</div></div>`;
+          appointmentsList.appendChild(col);
+        });
+      }
+      renderAppointments();
+
+      // services listing (small subset)
+      const services = [
+        { id:'minorSurgery', nameKey:'featured.minor_surgery.title', emoji:'✂️' },
+        { id:'delivery', nameKey:'featured.delivery.title', emoji:'🤱' },
+        { id:'pharmacy', nameKey:'featured.pharmacy.title', emoji:'💊' },
+        { id:'laboratory', nameKey:'featured.laboratory.title', emoji:'🔬' }
+      ];
+      const servicesCards = document.getElementById('services-cards');
+      services.forEach(s=>{
+        const col = document.createElement('div'); col.className='col-12 col-md-6 col-lg-3';
+        col.innerHTML = `<div class="service-card service-card-${s.id}"><span class="service-emoji">${s.emoji}</span><div class="fw-bold service-name" data-i18n="${s.nameKey}">${s.nameKey}</div><div class="mt-2"><button class="btn btn-green btn-sm mt-2 book-btn" data-service="${s.id}" data-namekey="${s.nameKey}">Book</button></div></div>`;
+        servicesCards.appendChild(col);
+      });
+      // apply i18n to rendered nodes
+      setLanguage(localStorage.getItem('lang')||'en');
+
+      // booking flow: open modal with Calendly iframe or direct embed
+      const calModalEl = document.getElementById('calModal');
+      let calModal;
+      if (calModalEl && typeof bootstrap !== 'undefined') calModal = new bootstrap.Modal(calModalEl);
+      servicesCards.addEventListener('click', function(e){
+        const btn = e.target.closest('.book-btn');
+        if (!btn) return;
+        const svcKey = btn.getAttribute('data-namekey') || btn.getAttribute('data-service');
+        const svcText = (translations[localStorage.getItem('lang')||'en'] && translations[localStorage.getItem('lang')||'en'][svcKey]) || svcKey;
+        document.getElementById('calModalTitle').textContent = svcText;
+        // Build Calendly URL (using the generic scheduling link). Append service param for reference.
+        const baseCalendly = 'https://calendly.com/brandontnashong/30min';
+        const url = baseCalendly + '?service=' + encodeURIComponent(svcText);
+        document.getElementById('calendlyIframe').src = url;
+        if (calModal) calModal.show();
+        else window.open(url, '_blank');
+        // Save a lightweight appointment record locally for visibility (timestamp only — actual confirmation via Calendly)
+        const appt = { username: currentUser || 'Guest', service: svcText, date: new Date().toLocaleString(), notes: 'Booked via dashboard' };
+        const all = JSON.parse(localStorage.getItem('myAppointments')||'[]');
+        all.push(appt);
+        localStorage.setItem('myAppointments', JSON.stringify(all));
+        // update view (after a short delay so saved)
+        setTimeout(()=>{ const arr = JSON.parse(localStorage.getItem('myAppointments')||'[]').filter(a=>a.username===currentUser); appts.length=0; arr.forEach(i=>appts.push(i)); renderAppointments(); }, 400);
+      });
+
+      // logout button
+      document.getElementById('logoutBtn').addEventListener('click', function(){
+        localStorage.removeItem('currentUser');
+        window.location.href = 'patient-portal.html';
+      });
+
+      // apply translations on load
+      setLanguage(localStorage.getItem('lang')||'en');
+    })();
+  </script>
+</body>
+</html>

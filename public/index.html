@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St. Agnes Health Centre</title>
+    <!-- Local Bootstrap CSS (replace CDN to avoid loading issues) -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Global site styles (fonts, transitions, hero layout) -->
+    <link href="styles.css" rel="stylesheet">
+    <!-- Google Translate Setup -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,fr',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false,
+                multilanguagePage: true
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script src="translate.js"></script>
+</head>
+<body>
+  <!-- Sidebar overlay and sidebar (for hamburger menu) -->
+  <div id="sidebarMenuOverlay" class="sidebar-menu-overlay"></div>
+  <nav id="sidebarMenu" class="sidebar-menu">
+    <!-- updated close button content; styling handled in CSS -->
+    <button id="sidebarMenuClose" type="button" class="sidebar-close" aria-label="Close sidebar">✕</button>
+    <!-- removed logo + heading from sidebar per request -->
+    <div class="sidebar-logo" aria-hidden="true"></div>
+    <div class="sidebar-links">
+      <a href="#home">Home</a>
+      <a href="#about">About Us</a>
+      <a href="services.html">Services</a>
+      <a href="our-team.html">Our Team</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+  <!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light top-spacer smooth" style="position:relative;">
+    <div class="container-fluid d-flex align-items-center position-relative" style="padding-left:0;padding-right:0;margin-left:0;">
+        <!-- removed hamburger from navbar; it will appear in the hero area -->
+        <div style="padding-left:16px;width:100%;display:flex;align-items:center;justify-content:flex-start;gap:20px;">
+            <!-- Logo and brand, aligned to far left -->
+            <a class="navbar-brand ms-0 d-flex align-items-center gap-3" href="#" style="margin-left:0;padding-left:16px;">
+                <div class="logo-container" style="display:inline-block;">
+                    <!-- logo: keep image only, visual styling is handled in CSS -->
+                    <img id="clinic-logo" src="images/logo.png" alt="Clinic Logo" onerror="this.style.display='none';">
+                </div>
+                <span class="brand-text" style="font-size:1.45rem;">St. Agnes Health Centre</span>
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- main nav links (visible on desktop, hidden on mobile) -->
+                <div class="nav-links me-auto" role="navigation" aria-label="Main navigation">
+                  <ul class="navbar-nav d-flex flex-row align-items-center mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link mx-2" href="#home" data-i18n="nav.home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="#about" data-i18n="nav.about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="services.html" data-i18n="nav.services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="our-team.html" data-i18n="nav.team">Our Team</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="#contact" data-i18n="nav.contact">Contact</a></li>
+                  </ul>
+                </div>
+            </div>
+
+            <!-- actions moved outside collapse so always visible on mobile -->
+            <div class="navbar-actions d-flex align-items-center gap-2">
+                <!-- Patient Portal quick link -->
+                <a href="patient-portal.html" class="btn btn-outline-light me-2 d-none d-md-inline-flex align-items-center" data-i18n="nav.portal" style="font-weight:600;">Patient Portal</a>
+
+                <!-- Account dropdown / avatar -->
+                <div class="dropdown">
+                  <button class="btn btn-light dropdown-toggle d-inline-flex align-items-center" id="accountMenuBtn" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Account menu">
+                    <span id="profile-avatar" class="rounded-circle" style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--accent-dark);font-weight:700;">G</span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenuBtn">
+                    <li><a class="dropdown-item" href="dashboard.html" data-i18n="account.dashboard">Dashboard</a></li>
+                    <li><button class="dropdown-item" id="open-profile" data-i18n="account.settings" type="button">Account Settings</button></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><button class="dropdown-item text-danger" id="logout-btn" type="button" data-i18n="account.logout">Logout</button></li>
+                  </ul>
+                </div>
+
+                 <!-- navbar WhatsApp removed (floating WhatsApp icon remains) -->
+                 <div class="lang-toggle d-flex align-items-center">
+                     <button type="button" class="btn btn-secondary me-1" onclick="changeLanguage('en')" aria-label="English">EN</button>
+                     <button type="button" class="btn btn-secondary" onclick="changeLanguage('fr')" aria-label="Français">FR</button>
+                 </div>
+                <!-- navbar hamburger (visible on mobile, hidden on desktop) -->
+                <button id="navbarHamburgerBtn" class="btn btn-menu navbar-hamburger ms-2" data-i18n-attr="aria-label:menu.toggle" aria-controls="sidebarMenu" aria-expanded="false">
+                  <!-- simple hamburger icon -->
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                    <rect y="4" width="24" height="2.6" rx="1.3" fill="currentColor"/>
+                    <rect y="11" width="24" height="2.6" rx="1.3" fill="currentColor"/>
+                    <rect y="18" width="24" height="2.6" rx="1.3" fill="currentColor"/>
+                  </svg>
+                </button>
+            </div>
+         </div>
+    </div>
+</nav>
+
+<!-- Insert the hero (Welcome) section here so it appears above About Us -->
+<section id="home" class="hero smooth" style="position:relative;">
+	<div class="hero-text">
+		<h1 id="main-title">Welcome to St. Agnes Health Centre</h1>
+		<p id="main-slogan">We treat & care — GOD HEALS</p>
+		<p class="lead">Quality primary care, diagnostics, maternity and pharmacy services for you and your family.</p>
+		<div class="mt-4">
+			<p>Contact: +237 6 71 45 71 43</p>
+			<p>Open: Mon-Sun 24/7</p>
+		</div>
+
+		<!-- Primary scheduling CTA -->
+		<div class="mt-4">
+			<a href="appointment.html" class="btn-cta-book" data-i18n="btn.book" data-i18n-attr="title:btn.book">
+				<!-- text replaced by translation -->
+ 			<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                     <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                 </svg>
+ 			</a>
+ 		</div>
+	</div>
+	<div class="hero-image">
+		<img src="images/clinic.jpg" alt="Clinic building" class="trapezoid-left">
+	</div>
+</section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about py-5">
+        <div class="container">
+            <h2 class="text-center mb-4" id="about-title">About Us</h2>
+            <p id="about-desc">St. Agnes Health Centre has been serving the community since 2007, providing top-notch medical care with a dedicated team of professionals. Our mission is to improve lives through compassionate healthcare.</p>
+            <!-- Video Section -->
+            <div class="video-container mt-4">
+                <video width="100%" height="315" controls>
+                    <source src="images/vid1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="featured-services" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4" data-i18n="services-title">Featured Services</h2>
+
+            <!-- small local styles to ensure image sits at top of card -->
+            <style>
+                .featured-card { border-radius: 12px; overflow: hidden; box-shadow: 0 8px 28px rgba(0,0,0,0.09); border: 1px solid rgba(0,0,0,0.04); }
+                .featured-card .featured-img { display:block; width:100%; height:180px; object-fit:cover; object-position:center; }
+                .featured-card .card-body { padding: 1rem; }
+                .featured-card .card-title { margin-bottom: .5rem; font-weight:700; }
+                /* small responsive tweak to make images taller on larger screens */
+                @media(min-width:1200px){ .featured-card .featured-img{ height:200px; } }
+            </style>
+
+            <div class="row gy-4">
+                <!-- Card 1: Minor Surgery -->
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card featured-card h-100 text-center">
+                        <img id="img1" class="featured-img" src="images/img1.jpg" alt="Minor Surgery">
+                        <div class="card-body">
+                            <h5 class="card-title" data-i18n="featured.minor_surgery.title">Minor Surgery</h5>
+                            <p class="card-text" data-i18n="featured.minor_surgery.desc">Outpatient surgical care for small procedures.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2: Delivery -->
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card featured-card h-100 text-center">
+                        <img id="img2" class="featured-img" src="images/img2.jpg" alt="Delivery">
+                        <div class="card-body">
+                            <h5 class="card-title" data-i18n="featured.delivery.title">Delivery</h5>
+                            <p class="card-text" data-i18n="featured.delivery.desc">Safe childbirth services with trained professionals.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3: Pro-Pharmacy -->
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card featured-card h-100 text-center">
+                        <img id="img3" class="featured-img" src="images/img3.jpg" alt="Pro-Pharmacy">
+                        <div class="card-body">
+                            <h5 class="card-title" data-i18n="featured.pharmacy.title">Pro-Pharmacy</h5>
+                            <p class="card-text" data-i18n="featured.pharmacy.desc">Prescription and over-the-counter medications.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4: Laboratory -->
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card featured-card h-100 text-center">
+                        <img id="img4" class="featured-img" src="images/img4.jpg" alt="Laboratory">
+                        <div class="card-body">
+                            <h5 class="card-title" data-i18n="featured.laboratory.title">Laboratory</h5>
+                            <p class="card-text" data-i18n="featured.laboratory.desc">Biological and biomedical analysis services.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="services.html" class="btn btn-cta-book" data-i18n="btn.check_all_services">CHECK OUT ALL SERVICES</a>
+            </div>
+        </div>
+    </section>
+ 
+     <!-- Why Choose Us Section -->
+     <section id="why-choose" class="why-choose py-5">
+         <div class="container">
+            <h2 class="text-center mb-4" data-i18n="why.title">Why Choose St. Agnes Health Centre</h2>
+             <div class="row align-items-center g-4">
+                 <!-- Left column: Accordion -->
+                 <div class="col-lg-7">
+                     <div class="accordion" id="whyChooseAccordion">
+                         <!-- Section 1 -->
+                         <div class="accordion-item">
+                             <h3 class="accordion-header">
+                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#section1" data-i18n="why.sec1.title">
+                                     A World Class Healthcare Environment
+                             </button>
+                             </h3>
+                             <div id="section1" class="accordion-collapse collapse" data-bs-parent="#whyChooseAccordion">
+                                 <div class="accordion-body" data-i18n="why.sec1.desc">
+                                     Our state-of-the-art facility combines modern medical technology with comfortable, healing environments.
+                              </div>
+                             </div>
+                         </div>
+                         <!-- Section 2 -->
+                         <div class="accordion-item">
+                             <h3 class="accordion-header">
+                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#section2" data-i18n="why.sec2.title">
+                                     Digital Health Records
+                             </button>
+                             </h3>
+                             <div id="section2" class="accordion-collapse collapse" data-bs-parent="#whyChooseAccordion">
+                                 <div class="accordion-body" data-i18n="why.sec2.desc">
+                                     Access your medical history, test results, and appointments through our secure digital platform. Our electronic health record system ensures accurate documentation and seamless communication between your healthcare providers, leading to better coordinated care and improved outcomes.
+                             </div>
+                             </div>
+                         </div>
+                         <!-- Section 3 -->
+                         <div class="accordion-item">
+                             <h3 class="accordion-header">
+                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#section3" data-i18n="why.sec3.title">
+                                     Appointments at Your Convenience
+                             </button>
+                             </h3>
+                             <div id="section3" class="accordion-collapse collapse" data-bs-parent="#whyChooseAccordion">
+                                 <div class="accordion-body" data-i18n="why.sec3.desc">
+                                     Book appointments 24/7 through our online portal or mobile app. We offer flexible scheduling options including early morning and evening slots to accommodate your busy lifestyle. Emergency appointments are also available when needed.
+                             </div>
+                             </div>
+                         </div>
+                         <!-- Section 4 -->
+                         <div class="accordion-item">
+                             <h3 class="accordion-header">
+                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#section4" data-i18n="why.sec4.title">
+                                     Reduced Waiting Times
+                             </button>
+                             </h3>
+                             <div id="section4" class="accordion-collapse collapse" data-bs-parent="#whyChooseAccordion">
+                                 <div class="accordion-body" data-i18n="why.sec4.desc">
+                                     Our innovative queue management system and efficient scheduling practices minimize your waiting time. We respect your time and strive to ensure you receive prompt attention while maintaining the highest quality of care.
+                             </div>
+                             </div>
+                         </div>
+                         <!-- Section 5 -->
+                         <div class="accordion-item">
+                             <h3 class="accordion-header">
+                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#section5" data-i18n="why.sec5.title">
+                                     Patient-Focused Staff
+                             </button>
+                             </h3>
+                             <div id="section5" class="accordion-collapse collapse" data-bs-parent="#whyChooseAccordion">
+                                 <div class="accordion-body" data-i18n="why.sec5.desc">
+                                     Our team is committed to providing compassionate, personalized care. From our reception staff to our medical professionals, everyone is trained to prioritize patient comfort and satisfaction. We take time to listen to your concerns and explain treatments thoroughly.
+                             </div>
+                             </div>
+                         </div>
+                         <!-- Section 6 -->
+                         <div class="accordion-item">
+                             <h3 class="accordion-header">
+                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#section6" data-i18n="why.sec6.title">
+                                     International Expertise
+                             </button>
+                             </h3>
+                             <div id="section6" class="accordion-collapse collapse" data-bs-parent="#whyChooseAccordion">
+                                 <div class="accordion-body" data-i18n="why.sec6.desc">
+                                     Our medical team includes professionals trained at leading international institutions. We maintain partnerships with global healthcare centers, ensuring our practices align with international standards while providing culturally sensitive care to our diverse patient community.
+                             </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- Right column: Image -->
+                 <div class="col-lg-5">
+                     <img src="images/id1.jpg" alt="St. Agnes Health Centre Facility" class="img-fluid rounded shadow-lg">
+                 </div>
+             </div>
+         </div>
+     </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="text-center mb-4" id="contact-title">Contact Us</h2>
+            <p>Phone: +237 698691563/671457143/677180553</p>
+            <p>Email: stagneshc@yahoo.com</p>
+            <p>Address: 237 Cite de la Paix Douala-Bassa</p>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.034684286839!2d9.717568614513672!3d4.034789997104885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10610f0f0f0f0f0f%3A0xabc123def456!2sSt.+Agnes+Health+Centre!5e0!3m2!1sen!2scm!4v1692168000000" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <form action="https://formspree.io/f/xyznbevg" method="POST" class="mt-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Name" required name="name">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="email" class="form-control" placeholder="Email" required name="email">
+                    </div>
+                    <div class="col-12">
+                        <textarea class="form-control" placeholder="Message" rows="3" required name="message"></textarea>
+                    </div>
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Blog/News Section -->
+    <section id="blog" class="blog">
+        <div class="container">
+            <h2 class="text-center mb-4" id="blog-title">Health Tips & News</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Stay Hydrated</h5>
+                            <p class="card-text">Drinking water is essential for good health.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Wash Your Hands</h5>
+                            <p class="card-text">Regular handwashing prevents infections.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Get Vaccinated</h5>
+                            <p class="card-text">Vaccines protect you and your community.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more health tips as needed -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Add translate element container -->
+<div id="google_translate_element" style="display:none;"></div>
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-column">
+      <div class="footer-logo">
+        <img src="images/logo.png" alt="logo">
+        <div>
+          <h4 data-i18n="footer.about_title">About</h4>
+          <p class="footer-about" data-i18n="footer.about_text">St. Agnes Health Centre — quality care in Douala...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-column footer-links">
+      <h4 data-i18n="footer.quick_links">Quick Links</h4>
+      <a href="index.html" data-i18n="nav.home">Home</a>
+      <a href="services.html" data-i18n="nav.services">Services</a>
+      <a href="our-team.html" data-i18n="nav.team">Our Team</a>
+      <a href="contact.html" data-i18n="nav.contact">Contact</a>
+    </div>
+
+    <div class="footer-column footer-contact">
+      <h4 data-i18n="footer.contact_title">Contact</h4>
+      <p><strong data-i18n="footer.phone_label">Phone</strong>: <a href="tel:+237671457143" style="color:inherit;text-decoration:none;">+237 671 457 143</a></p>
+      <p><strong data-i18n="footer.email_label">Email</strong>: <a href="mailto:stagneshc@yahoo.com" style="color:inherit;text-decoration:none;">stagneshc@yahoo.com</a></p>
+      <p data-i18n="footer.address_label">Address</p>
+      <p>237 Cite de la Paix Douala-Bassa</p>
+      <div class="footer-social" aria-label="Social links">
+        <a href="#" aria-label="Facebook" title="Facebook">f</a>
+        <a href="#" aria-label="Twitter" title="Twitter">t</a>
+        <a href="#" aria-label="Instagram" title="Instagram">ig</a>
+      </div>
+    </div>
+
+    <div class="footer-column footer-newsletter">
+      <h4 data-i18n="footer.follow_us">Newsletter</h4>
+      <form id="footer-newsletter-form" aria-label="Subscribe to newsletter">
+        <input id="footer-newsletter-email" type="email" placeholder="" data-i18n-placeholder="footer.newsletter_placeholder" aria-label="Email">
+        <button type="submit" data-i18n="footer.subscribe">Subscribe</button>
+      </form>
+      <div id="footer-newsletter-message" style="margin-top:8px;color:#bff7f7;"></div>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <div>&copy; <span id="footer-year"></span> St. Agnes Health Centre</div>
+    <div>Made with ❤️ — St. Agnes Health Centre</div>
+  </div>
+</footer>
+
+<script>
+  // set year
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+</script>
+
+<!-- Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchModalLabel" data-i18n="search.title">Search site</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="modal-search-form" onsubmit="return false;">
+          <div class="input-group">
+            <input id="modal-site-search" type="search" class="form-control" placeholder="" data-i18n-placeholder="search.placeholder" aria-label="Search" />
+            <button id="modal-search-submit" class="btn btn-green" type="submit">Go</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating call button -->
+<a id="floating-call" href="tel:+237671457143" class="btn btn-primary" aria-label="Call">
+	<span style="font-size:1.6rem;line-height:1;">📞</span>
+</a>
+<a id="floating-whatsapp" href="https://wa.me/237671457143" class="btn btn-success" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+	<img src="images/whatsapp.png" alt="WhatsApp" style="height:22px;width:22px;object-fit:contain;">
+</a>
+
+<!-- Bootstrap JS and Custom JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script src="lang.js"></script>
+</body>
+</html>

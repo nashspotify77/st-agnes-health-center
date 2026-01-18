@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Detail - St. Agnes Health Centre</title>
+    <!-- Local Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Global styles -->
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        /* page-specific tweaks if needed */
+         .container {
+             max-width: 800px;
+             margin-top: 50px;
+         }
+         .service-image {
+             max-width: 100%;
+             height: auto;
+             border-radius: 8px;
+             margin-bottom: 15px;
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back button -->
+        <div class="mb-3">
+            <button class="btn btn-light" type="button" onclick="history.back()" aria-label="Go back">← Back</button>
+        </div>
+        <h2 class="text-center mb-4" id="service-title">Service Detail</h2>
+        <div id="service-details">
+            <!-- Service details will be dynamically added here -->
+        </div>
+        <a href="services.html" class="btn btn-green">Back to Services</a>
+    </div>
+    <!-- Local Bootstrap JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="lang.js"></script>
+    <script>
+        // Remove navbar/sidebar if present (defensive)
+        document.addEventListener('DOMContentLoaded', function(){
+            ['#sidebarMenu','#sidebarMenuOverlay','.menu-wrapper','.navbar','#mainMenuBtn'].forEach(s=>{
+                document.querySelectorAll(s).forEach(el=>{ if (el && el.parentNode) el.parentNode.removeChild(el); });
+            });
+        });
+    </script>
+    <script>
+        const serviceDetails = {
+            'service.general.name': {
+                imageUrl: 'images/service-general.jpg',
+                description: 'A general checkup is a routine medical examination to evaluate your overall health. It typically includes a physical exam, review of medical history, and basic tests.'
+            },
+            'service.ultrasound.name': {
+                imageUrl: 'images/service-ultrasound.jpg',
+                description: 'Ultrasound is a non-invasive diagnostic imaging technique that uses sound waves to create images of organs and structures within the body.'
+            },
+            'service.pediatrics.name': {
+                imageUrl: 'images/service-pediatrics.jpg',
+                description: 'Pediatrics is the branch of medicine dealing with the health and medical care of infants, children, and adolescents from birth up to the age of 18.'
+            }
+        };
+
+        const serviceDetailsDiv = document.getElementById('service-details');
+        const urlParams = new URLSearchParams(window.location.search);
+        const serviceKey = urlParams.get('service');
+
+        if (serviceKey && serviceDetails[serviceKey]) {
+            const service = serviceDetails[serviceKey];
+            serviceDetailsDiv.innerHTML = `
+                <img src="${service.imageUrl}" alt="${serviceKey}" class="service-image">
+                <p class="text-center">${service.description}</p>
+            `;
+        } else {
+            serviceDetailsDiv.innerHTML = '<p class="text-center">Service details not found.</p>';
+        }
+    </script>
+</body>
+</html>

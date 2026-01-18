@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title data-i18n="account.title">Account Settings</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <style>
+    .container { max-width:920px; margin-top:36px; }
+    .panel { background:#fff; padding:20px; border-radius:12px; box-shadow:0 8px 28px rgba(0,0,0,0.06); }
+    .col-split { display:grid; grid-template-columns: 1fr 360px; gap:20px; }
+    @media(max-width:900px){ .col-split { grid-template-columns: 1fr; } }
+    .hint { color:#5a6f6f; font-size:0.95rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <h3 data-i18n="account.title">Account Settings</h3>
+      <div class="col-split mt-3">
+        <div>
+          <h5 data-i18n="account.change_info">Change Account Information</h5>
+          <form id="change-info-form">
+            <div class="mb-3">
+              <label class="form-label" data-i18n="portal.username">Username</label>
+              <input id="acc-username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" data-i18n="portal.email">Email</label>
+              <input id="acc-email" type="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" data-i18n="account.current_password">Current Password</label>
+              <input id="acc-current-pw" type="password" class="form-control">
+            </div>
+            <div class="mb-3">
+              <button class="btn btn-green" id="save-info" type="submit" data-i18n="account.save_changes">Save Changes</button>
+              <span id="info-msg" class="ms-3 hint"></span>
+            </div>
+          </form>
+
+          <hr>
+
+          <h5 data-i18n="account.reset_title">Reset Password</h5>
+          <p class="hint" data-i18n="account.reset_instructions">Enter your username and email to reset your password.</p>
+          <form id="reset-form">
+            <div class="mb-2">
+              <input id="reset-username" class="form-control" placeholder="" data-i18n-placeholder="portal.username" required>
+            </div>
+            <div class="mb-2">
+              <input id="reset-email" type="email" class="form-control" placeholder="" data-i18n-placeholder="portal.email" required>
+            </div>
+            <div class="mb-2">
+              <input id="reset-newpw" type="password" class="form-control" placeholder="" data-i18n-placeholder="account.new_password" required>
+            </div>
+            <div class="mb-3">
+              <input id="reset-confirm" type="password" class="form-control" placeholder="" data-i18n-placeholder="account.confirm_password" required>
+            </div>
+            <div><button class="btn btn-primary" id="reset-submit" type="submit" data-i18n="account.reset_submit">Reset Password</button> <span id="reset-msg" class="ms-3 hint"></span></div>
+          </form>
+        </div>
+
+        <div>
+          <h5>Security</h5>
+          <p class="hint">Use a strong password: at least 8 characters with letters, numbers and a symbol.</p>
+          <h5 class="mt-3">Danger Zone</h5>
+          <p class="hint">Delete account permanently (local storage will be cleared for this account).</p>
+          <button id="delete-account" class="btn btn-outline-danger">Delete Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="lang.js"></script>
+  <script>
+    // Account settings logic
+    (function(){
+      const currentUser = localStorage.getItem('currentUser');
+      if (!currentUser) {
+        alert('Please log in to access account settings.');
+        window.location.href = 'patient-portal.html';
+      }
+      const users = JSON.parse(localStorage.getItem('users')||'[]');
+      const idx = users.findIndex(u=>u.username===currentUser);
+      if (idx === -1) {
+        alert('User not found. Please login again.');
+        window.location.href = 'patient-portal.html';
+      }
+      const user = users[idx];
+
+      document.getElementById('acc-username').value = user.username || '';
+      document.getElementById('acc-email').value = user.email || '';
+
+      function isStrongPassword(pw){
+        if (!pw || pw.length < 8) return false;
+        return /[A-Za-z]/.test(pw) && /[0-9]/.test(pw) && /[^A-Za-z0-9]/.test(pw);
+      }
+
+      // Save info
+      document.getElementById('change-info-form').addEventListener('submit', function(e){
+        e.preventDefault();
+        const newU = document.getElementById('acc-username').value.trim();
+        const newE = document.getElementById('acc-email').value.trim();
+        const curPw = document.getElementById('acc-current-pw').value || '';
+
+        // if password provided, must match current
+        if (curPw && curPw !== user.password) {
+          document.getElementById('info-msg').textContent = 'Current password is incorrect.';
+          return;
+        }
+        // check username collisions
+        const all = JSON.parse(localStorage.getItem('users')||'[]');
+        if (all.some((u,i)=>i!==idx && u.username===newU)) {
+          document.getElementById('info-msg').textContent = 'Username already taken.';
+          return;
+        }
+        all[idx].username = newU;
+        all[idx].email = newE;
+        localStorage.setItem('users', JSON.stringify(all));
+        localStorage.setItem('currentUser', newU);
+        document.getElementById('info-msg').textContent = (translations[localStorage.getItem('lang')||'en'] && translations[localStorage.getItem('lang')||'en']['account.update_success']) || 'Account updated successfully.';
+        setTimeout(()=>{ document.getElementById('info-msg').textContent=''; }, 3000);
+      });
+
+      // Reset password form
+      document.getElementById('reset-form').addEventListener('submit', function(e){
+        e.preventDefault();
+        const uname = document.getElementById('reset-username').value.trim();
+        const email = document.getElementById('reset-email').value.trim();
+        const newpw = document.getElementById('reset-newpw').value;
+        const confirm = document.getElementById('reset-confirm').value;
+        const msgEl = document.getElementById('reset-msg');
+
+        if (newpw !== confirm) { msgEl.textContent = (translations[localStorage.getItem('lang')||'en']['account.reset_error'] || 'Passwords do not match'); return; }
+        if (!isStrongPassword(newpw)) { msgEl.textContent = 'Password not strong enough.'; return; }
+
+        const list = JSON.parse(localStorage.getItem('users')||'[]');
+        const i = list.findIndex(u=>u.username===uname && (u.email||'')===email);
+        if (i === -1) { msgEl.textContent = (translations[localStorage.getItem('lang')||'en']['account.reset_error']) || 'Reset failed.'; return; }
+        list[i].password = newpw;
+        localStorage.setItem('users', JSON.stringify(list));
+        msgEl.textContent = (translations[localStorage.getItem('lang')||'en']['account.reset_success']) || 'Password reset successful.';
+        setTimeout(()=>{ msgEl.textContent=''; }, 3000);
+      });
+
+      document.getElementById('delete-account').addEventListener('click', function(){
+        if (!confirm((translations[localStorage.getItem('lang')||'en']['account.delete_confirm'])||'Delete account?')) return;
+        let list = JSON.parse(localStorage.getItem('users')||'[]');
+        list = list.filter(u=>u.username !== currentUser);
+        localStorage.setItem('users', JSON.stringify(list));
+        localStorage.removeItem('currentUser');
+        alert('Account deleted.');
+        window.location.href = 'index.html';
+      });
+
+      // apply translations
+      setLanguage(localStorage.getItem('lang')||'en');
+    })();
+  </script>
+</body>
+</html>

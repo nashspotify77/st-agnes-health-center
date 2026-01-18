@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Services - Patient Portal</title>
+    <!-- Local Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Global styles -->
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        /* page-specific tweaks if needed */
+         .container {
+             max-width: 800px;
+             margin-top: 50px;
+         }
+         /* Slightly smaller service cards on full list page */
+         #services-list .col-12.col-md-6.col-lg-3 {
+           padding-left: 0.6rem;
+           padding-right: 0.6rem;
+         }
+         .service {
+             margin-bottom: 20px;
+             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+         }
+
+         /* Featured card styles (same as homepage) — ensure image is on top of card */
+         .featured-card { border-radius: 12px; overflow: hidden; box-shadow: 0 8px 28px rgba(0,0,0,0.09); border: 1px solid rgba(0,0,0,0.04); }
+         .featured-card .featured-img { display:block; width:100%; height:180px; object-fit:cover; object-position:center; }
+         .featured-card .card-body { padding: 1rem; }
+         .featured-card .card-title { margin-bottom: .5rem; font-weight:700; }
+         @media(min-width:1200px){ .featured-card .featured-img{ height:200px; } }
+
+         /* Figures slideshow (keep images at 875x1241) */
+         .service-figures { margin: 36px auto 0; display:flex; justify-content:center; align-items:center; }
+         .figures-viewport {
+           width: 875px;
+           height: 1241px;
+           overflow: hidden;
+           position: relative;
+           border-radius: 8px;
+           box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+           background: #000;
+         }
+         .figures-track {
+           display: flex;
+           flex-direction: column; /* stack images vertically */
+           transition: transform 700ms ease;
+           will-change: transform;
+         }
+         .figures-track img {
+           width: 875px;
+           height: 1241px;
+           display: block;
+           object-fit: cover;
+           object-position: center;
+         }
+         /* controls */
+         .fig-control {
+           position: absolute;
+           top: 50%;
+           transform: translateY(-50%);
+           background: rgba(255,255,255,0.85);
+           border: none;
+           padding: 8px 10px;
+           border-radius: 6px;
+           cursor: pointer;
+         }
+         .fig-prev { left: 10px; }
+         .fig-next { right: 10px; }
+         /* small responsiveness: allow horizontal scroll on very small screens (user asked not to scale down) */
+         @media (max-width:900px) {
+           .figures-viewport { overflow: auto; width: 100vw; height: auto; }
+           .figures-track { flex-direction: column; transform: none !important; }
+           .figures-track img { width: 100%; height: auto; }
+           .fig-control { display: none; }
+         }
+
+         /* Emoji-style logo badge used on top of service cards */
+         .service-logo {
+           display:inline-flex;
+           align-items:center;
+           justify-content:center;
+           width:96px;
+           height:96px;
+           margin: 18px auto 6px auto;
+           border-radius:999px;
+           padding:10px;
+           background: linear-gradient(180deg,#fff 0%, #f7fbff 100%);
+           border: 1px solid rgba(20,79,85,0.06);
+           box-shadow: 0 8px 20px rgba(20,79,85,0.06);
+           font-size:40px;
+           line-height:1;
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back button -->
+        <div class="mb-3">
+            <button class="btn btn-light" type="button" onclick="history.back()" aria-label="" data-i18n-attr="aria-label:btn.back"><span aria-hidden="true">←</span> <span data-i18n="btn.back">← Back</span></button>
+        </div>
+        <h2 class="text-center mb-4" id="services-title">Clinic Services</h2>
+        <div id="services-list" class="row">
+            <!-- Services will be dynamically added here -->
+        </div>
+
+        <!-- Requested static images placed directly under services (stacked vertically).
+             Preserves original services appearance; no slideshow or layout changes. -->
+        <div class="service-figures-vertical" aria-hidden="false" style="margin-top:24px; display:flex; flex-direction:column; gap:16px; align-items:center;">
+          <div style="width:875px; max-width:100%; overflow:auto;">
+            <img id="fig1" src="images/fig1.jpg" alt="Service image 1" width="875" height="1241" style="display:block; width:875px; height:1241px; max-width:100%; height:auto;">
+          </div>
+          <div style="width:875px; max-width:100%; overflow:auto;">
+            <img id="fig2" src="images/fig2.jpg" alt="Service image 2" width="875" height="1241" style="display:block; width:875px; height:1241px; max-width:100%; height:auto;">
+          </div>
+          <div style="width:875px; max-width:100%; overflow:auto;">
+            <img id="fig3" src="images/fig3.jpg" alt="Service image 3" width="875" height="1241" style="display:block; width:875px; height:1241px; max-width:100%; height:auto;">
+          </div>
+          <div style="width:875px; max-width:100%; overflow:auto;">
+            <img id="fig4" src="images/fig4.jpg" alt="Service image 4" width="875" height="1241" style="display:block; width:875px; height:1241px; max-width:100%; height:auto;">
+          </div>
+        </div>
+    </div>
+
+    <!-- Footer (same as index) -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-column">
+      <div class="footer-logo">
+        <img src="images/logo.png" alt="logo">
+        <div>
+          <h4 data-i18n="footer.about_title">About</h4>
+          <p class="footer-about" data-i18n="footer.about_text">St. Agnes Health Centre — quality care in Douala...</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-column footer-links">
+      <h4 data-i18n="footer.quick_links">Quick Links</h4>
+      <a href="index.html" data-i18n="nav.home">Home</a>
+      <a href="services.html" data-i18n="nav.services">Services</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </div>
+    <div class="footer-column footer-contact">
+      <h4 data-i18n="footer.contact_title">Contact</h4>
+      <p><strong data-i18n="footer.phone_label">Phone</strong>: <a href="tel:+237671457143" style="color:inherit;text-decoration:none;">+237 671 457 143</a></p>
+      <p><strong data-i18n="footer.email_label">Email</strong>: <a href="mailto:stagneshc@yahoo.com" style="color:inherit;text-decoration:none;">stagneshc@yahoo.com</a></p>
+      <p data-i18n="footer.address_label">Address</p>
+      <p>237 Cite de la Paix Douala-Bassa</p>
+      <div class="footer-social" aria-label="Social links">
+        <a href="#" aria-label="Facebook" title="Facebook">f</a>
+        <a href="#" aria-label="Twitter" title="Twitter">t</a>
+        <a href="#" aria-label="Instagram" title="Instagram">ig</a>
+      </div>
+    </div>
+    <div class="footer-column footer-newsletter">
+      <h4 data-i18n="footer.follow_us">Newsletter</h4>
+      <form id="footer-newsletter-form" aria-label="Subscribe to newsletter">
+        <input id="footer-newsletter-email" type="email" placeholder="" data-i18n-placeholder="footer.newsletter_placeholder" aria-label="Email">
+        <button type="submit" data-i18n="footer.subscribe">Subscribe</button>
+      </form>
+      <div id="footer-newsletter-message" style="margin-top:8px;color:#bff7f7;"></div>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <div>&copy; <span id="footer-year"></span> St. Agnes Health Centre</div>
+    <div>Made with ❤️ — St. Agnes Health Centre</div>
+  </div>
+</footer>
+
+<script>
+  if (!document.getElementById('footer-year')) {
+    // avoid double setting if other pages already set it
+    const el = document.getElementById('footer-year');
+    if (el) el.textContent = new Date().getFullYear();
+  } else {
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  }
+</script>
+    <!-- Local Bootstrap JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- translations -->
+    <script src="lang.js"></script>
+    <script>
+        // Remove navbar/sidebar if present (defensive)
+        document.addEventListener('DOMContentLoaded', function(){
+            ['#sidebarMenu','#sidebarMenuOverlay','.menu-wrapper','.navbar','#mainMenuBtn'].forEach(s=>{
+                document.querySelectorAll(s).forEach(el=>{ if (el && el.parentNode) el.parentNode.removeChild(el); });
+            });
+        });
+    </script>
+    <script>
+        // Services list: use translation keys and emoji badges (emoji rendered in .service-logo)
+        const services = [
+          { nameKey: 'service.echography.name', descKey: 'service.echography.desc', emoji: '🩺' },
+          { nameKey: 'service.vaccination.name', descKey: 'service.vaccination.desc', emoji: '💉' },
+          { nameKey: 'service.consultation.name', descKey: 'service.consultation.desc', emoji: '👩‍⚕️' },
+          { nameKey: 'service.hospitalization.name', descKey: 'service.hospitalization.desc', emoji: '🏥' },
+          { nameKey: 'service.laboratory.name', descKey: 'service.laboratory.desc', emoji: '🔬' },
+          { nameKey: 'service.bacteriology.name', descKey: 'service.bacteriology.desc', emoji: '🧫' },
+          { nameKey: 'service.healtheducation.name', descKey: 'service.healtheducation.desc', emoji: '📚' },
+          { nameKey: 'service.familyplanning.name', descKey: 'service.familyplanning.desc', emoji: '👪' },
+          { nameKey: 'service.operating.name', descKey: 'service.operating.desc', emoji: '⚕️' },
+          { nameKey: 'service.minorSurgery.name', descKey: 'service.minorSurgery.desc', emoji: '✂️' },
+          { nameKey: 'service.childbirth.name', descKey: 'service.childbirth.desc', emoji: '🤱' },
+          { nameKey: 'service.propharmacy.name', descKey: 'service.propharmacy.desc', emoji: '💊' },
+          { nameKey: 'service.pediatrics.name', descKey: 'service.pediatrics.desc', emoji: '🧒' },
+          { nameKey: 'service.maternity.name', descKey: 'service.maternity.desc', emoji: '🤰' }
+        ];
+
+        const servicesList = document.getElementById('services-list');
+
+        function renderServices(list, query) {
+            servicesList.innerHTML = '';
+            if (!list.length) {
+                const noResults = document.createElement('div');
+                noResults.className = 'card p-4 text-center';
+                noResults.innerHTML
+                noResults.innerHTML = `<p>No services found${query ? ` for "${query}"` : ''}.</p><a href="services.html" class="btn btn-green">Show all</a>`;
+                servicesList.appendChild(noResults);
+                return;
+            }
+            const lang = localStorage.getItem('lang') || 'en';
+            // Render as featured grid: image on top, then title and description underneath
+            list.forEach(service => {
+                const name = (translations[lang] && translations[lang][service.nameKey]) || service.name || service.nameKey;
+                const desc = (translations[lang] && translations[lang][service.descKey]) || service.desc || '';
+
+                const col = document.createElement('div');
+                col.className = 'col-12 col-md-6 col-lg-3';
+
+                const card = document.createElement('div');
+                card.className = 'card featured-card h-100 text-center';
+
+                card.innerHTML = `
+                    <div class="service-logo" aria-hidden="true">${service.emoji || '⚕️'}</div>
+                    <div class="card-body">
+                      <h5 class="card-title">${name}</h5>
+                      <p class="card-text">${desc}</p>
+                    </div>
+                `;
+
+                col.appendChild(card);
+                servicesList.appendChild(col);
+            });
+        }
+
+        // Apply search filtering from URL ?q=...
+        const urlParams = new URLSearchParams(window.location.search);
+        const qParam = (urlParams.get('q') || urlParams.get('query') || '').trim().toLowerCase();
+        if (qParam) {
+            const lang = localStorage.getItem('lang') || 'en';
+            const filtered = services.filter(s => {
+                const name = (translations[lang] && translations[lang][s.nameKey]) || '';
+                const desc = (translations[lang] && translations[lang][s.descKey]) || '';
+                return (name + ' ' + desc).toLowerCase().includes(qParam);
+            });
+            renderServices(filtered, qParam);
+        } else {
+            renderServices(services);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Consultation - Patient Portal</title>
+    <!-- Local Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Global styles -->
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        /* minor page-specific styles (kept minimal; global styles handle most) */
+         .container {
+             max-width: 600px;
+             margin-top: 50px;
+         }
+         .form-signin {
+             background-color: #ffffff;
+             padding: 30px;
+             border-radius: 10px;
+             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back button -->
+        <div class="mb-3">
+            <a href="index.html#services" class="btn btn-light" data-i18n-attr="aria-label:btn.back">
+                <span aria-hidden="true">←</span> <span data-i18n="btn.back">← Back</span>
+            </a>
+        </div>
+        <h1 class="mb-4" data-i18n="service.consultation.name">Medical Consultation</h1>
+        <div class="mb-4">
+            <h2 class="h5">Overview</h2>
+            <p>Our medical consultation service provides you with access to experienced healthcare professionals who can diagnose and treat a wide range of medical conditions. Whether you need a routine check-up or a more detailed examination, our team is here to help.</p>
+        </div>
+        <div class="mb-4">
+            <h2 class="h5">What to Expect</h2>
+            <ul>
+                <li>Comprehensive evaluation of your medical history and symptoms</li>
+                <li>Physical examination and diagnostic tests if necessary</li>
+                <li>Personalized treatment plan and medical advice</li>
+                <li>Referrals to specialists or for further tests if required</li>
+            </ul>
+        </div>
+        <div class="mb-4">
+            <h2 class="h5">Preparation for Your Appointment</h2>
+            <p>Please ensure you have the following information available for your consultation:</p>
+            <ul>
+                <li>Your medical history, including any previous conditions and treatments</li>
+                <li>A list of medications you are currently taking</li>
+                <li>Any allergies or adverse reactions to medications</li>
+                <li>Your insurance information, if applicable</li>
+            </ul>
+        </div>
+        <div class="mb-4">
+            <h2 class="h5">Frequently Asked Questions</h2>
+            <p><strong>Q: How do I book a medical consultation?</strong></p>
+            <p>A: You can book an appointment online through our website or by contacting our office directly.</p>
+            <p><strong>Q: What should I do if I need to cancel or reschedule my appointment?</strong></p>
+            <p>A: Please contact us as soon as possible if you need to cancel or reschedule, and we will be happy to assist you.</p>
+        </div>
+        <div class="text-center">
+            <a href="appointment.html" class="btn btn-green">
+                <span data-i18n="btn.book">Book An Appointment</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    <!-- Local Bootstrap JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="lang.js"></script>
+    <!-- Global site script (search/profile helpers, logo fallback) -->
+    <script src="script.js"></script>
+    <script>
+        // Ensure the main site navigation and sidebar are not visible on the patient portal
+        document.addEventListener('DOMContentLoaded', function() {
+            const toHide = ['#sidebarMenu', '#sidebarMenuOverlay', '.menu-wrapper', '.navbar', '#mainMenuBtn'];
+            toHide.forEach(selector => {
+                document.querySelectorAll(selector).forEach(el => {
+                    // remove rather than hide to avoid layout shifts
+                    if (el && el.parentNode) el.parentNode.removeChild(el);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

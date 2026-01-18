@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - St. Agnes Health Centre</title>
+    <!-- Local Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Global styles -->
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        /* page-specific tweaks if needed */
+         .container {
+             max-width: 800px;
+             margin-top: 50px;
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back button -->
+        <div class="mb-3">
+            <button class="btn btn-light" type="button" onclick="history.back()" aria-label="Go back">← Back</button>
+        </div>
+        <h2 class="text-center mb-4" id="about-title">About Us</h2>
+        <p id="about-desc">St. Agnes Health Centre has been serving the community since 2007, providing top-notch medical care with a dedicated team of professionals. Our mission is to improve lives through compassionate healthcare.</p>
+
+        <!-- Video Section -->
+        <div class="mt-4">
+            <h3 class="text-center mb-3">Our Story</h3>
+            <div class="video-container">
+                <!-- Replace with your video embed code -->
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/your-video-id" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <a href="index.html" class="btn btn-green">Back to Home</a>
+    </div>
+    <!-- Local Bootstrap JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Remove navbar/sidebar if present (defensive)
+        document.addEventListener('DOMContentLoaded', function(){
+            ['#sidebarMenu','#sidebarMenuOverlay','.menu-wrapper','.navbar','#mainMenuBtn'].forEach(s=>{
+                document.querySelectorAll(s).forEach(el=>{ if (el && el.parentNode) el.parentNode.removeChild(el); });
+            });
+        });
+    </script>
+</body>
+</html>

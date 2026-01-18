@@ -1,0 +1,1394 @@
+/* styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root{
+  --accent: #2B8FA3;
+  --accent-dark: #164F55;
+  --glass: rgba(255,255,255,0.6);
+
+  --site-bg: #2B8FA3; /* lighter, more visible blue */
+  --section-bg: #fafdff;
+  --hero-bg: linear-gradient(135deg, #e3f0fa 0%, #fafdff 100%);
+  --nav-bg: var(--accent); /* navbar uses primary accent green */
+  --services-section-bg: #e3f0fa;
+  --service-card-bg: #fff;
+  --doctor-card-bg: #fff;
+  --doctor-card-shadow: 0 12px 36px rgba(43,143,163,0.13);
+  --doctor-card-border: 2px solid #e3f0fa;
+  --staff-card-bg: #fff;
+  --staff-card-shadow: 0 12px 36px rgba(43,143,163,0.13);
+  --staff-card-border: 2px solid #e3f0fa;
+  --nav-overlap: 56px; /* adjust this value if the trapezoid needs to sit closer/further from the nav */
+  --navbar-height: 64px; /* default navbar height (desktop) */
+}
+
+/* override body font */
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: var(--site-bg);
+  color: #222;
+  transition: background 0.4s;
+}
+
+.smooth {
+  transition: all 300ms ease;
+}
+
+.text-green {
+  color: var(--accent) !important;
+  transition: color 0.3s;
+}
+
+.bg-green {
+  background-color: #4CAF50 !important;
+  color: #fff !important;
+  transition: background 0.3s;
+}
+
+a, .btn, .nav-link {
+  transition: color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.btn-green, .btn-success {
+  background: linear-gradient(90deg, #2b8fa3 0%, #5ac7d4 100%);
+  color: #fff !important;
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.08);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.btn-green:hover, .btn-success:hover {
+  background: linear-gradient(90deg, #5ac7d4 0%, #2b8fa3 100%);
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(76,175,80,0.18);
+}
+
+.btn-primary, .btn-outline-success {
+  border-radius: 25px;
+  font-weight: 600;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Navbar: use green background and white text for high contrast */
+.navbar {
+  background: var(--nav-bg) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 2px 8px rgba(20,79,85,0.06);
+  transition: box-shadow 0.3s;
+  padding-top: 0.35rem;   /* slightly reduced vertical padding */
+  padding-bottom: 0.35rem;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  color: #fff !important;
+}
+
+#clinic-logo {
+  width: 100px; /* Increased logo size */
+  height: 100px; /* Increased logo size */
+  object-fit: contain;
+  border-radius: 15px; /* Added rounded borders */
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  filter: none;
+  display: block;
+  max-width: 100%;
+}
+
+/* Navbar links and buttons should be white */
+.navbar .nav-link,
+.navbar .navbar-brand,
+.navbar .btn,
+.navbar .dropdown-toggle {
+  color: #fff !important;
+}
+
+/* keep dropdown menu readable (white background, dark text) */
+.navbar .dropdown-menu {
+  background: #fff;
+  color: var(--accent-dark);
+}
+.navbar .dropdown-item {
+  color: var(--accent-dark) !important;
+}
+
+/* dropdown alignment tweaks */
+.dropdown-menu-end.p-2 {
+  padding: 8px;
+}
+
+.hero {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:0 40px; /* remove top/bottom padding */
+  min-height: 480px; /* slightly increased */
+  border-radius: 0; /* remove all rounding */
+  margin: 0; /* remove margins */
+  /* hero uses same services blue */
+  background: var(--hero-bg);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0; /* ensure no gap under hero */
+  /* remove extra shadow that could create a seam */
+  box-shadow: none;
+}
+
+/* enlarge hero image area so clinic image appears larger on desktop */
+.hero .hero-image {
+  flex: 0 0 50%; /* increased from 46% */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0; /* remove border radius for seamless join */
+}
+.hero .hero-image img {
+  width: 100%;
+  height: 100%;
+  max-height: 540px; /* increased from 480px */
+  object-fit: cover;
+  border-radius: 0; /* remove border radius for seamless join */
+  box-shadow: none; /* remove shadow for seamless join */
+  border: none; /* remove border for seamless join */
+  margin-top: calc(-1 * var(--nav-overlap)); /* adjust overlap with navbar */
+}
+
+/* trapezoid mask for hero clinic images (left-style trapezoid) */
+.hero .trapezoid-left {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  /* slightly larger trapezium: reduce left inset and increase right-bottom inset */
+  -webkit-clip-path: polygon(6% 0, 100% 0, 96% 100%, 0 100%);
+  clip-path: polygon(6% 0, 100% 0, 96% 100%, 0 100%); /* Increased trapezium size */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: none; /* remove shadow */
+  border: none; /* remove border */
+  margin-top: 0; /* remove margin */
+}
+
+/* Responsive tweak: keep hero text readable when image grows */
+@media (max-width: 1100px) {
+  .hero .hero-image { 
+    flex: 0 0 50%; /* maintain consistent width */
+    max-height: 540px;
+  }
+  .hero-content { max-width: 45%; }
+}
+@media (max-width: 900px) {
+  .hero { flex-direction:column; padding:24px; min-height:320px; }
+  .hero .hero-image { flex:1; width:100%; max-width:420px; margin-top:10px; }
+  .hero-content { max-width:100%; text-align:center; }
+}
+
+.hero-content {
+  text-align: left;
+  flex:1;
+  max-width:60%;
+  color:var(--accent-dark);
+  z-index:2;
+}
+
+.hero-content h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+  color: var(--accent-dark);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+  transition: color 0.3s;
+}
+
+.hero-content p {
+  font-size: 1.4rem;
+  color: rgba(20,79,85,0.8);
+  font-weight: 400;
+  transition: color 0.3s;
+}
+
+/* Replace hero rounded join with flush join */
+.hero {
+	/* ...existing hero rules... */
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	margin-bottom: 0; /* ensure no gap under hero */
+	/* remove extra shadow that could create a seam */
+	box-shadow: none;
+}
+
+/* Make About sit directly under hero with no rounded corners or overlap */
+#about {
+	margin-top: 0;               /* no overlap, flush join */
+	border-top-left-radius: 0;   /* remove top rounding */
+	border-top-right-radius: 0;
+	padding-top: 40px;          /* increased padding for better spacing */
+	background: var(--section-bg);
+	border-radius: 0;
+}
+
+/* Remove the section-wide top rounded corners effect where it conflicts */
+#about.container, #about .container {
+	/* ensure inner container doesn't add extra spacing */
+	padding-top: 0;
+}
+
+/* make sure the hero bottom border doesn't show a seam on small screens */
+@media (max-width: 900px) {
+	#about { margin-top: 0; padding-top: 18px; border-top-left-radius: 0; border-top-right-radius: 0; }
+	.hero { border-bottom-left-radius: 0; border-bottom-right-radius: 0; box-shadow: none; }
+}
+
+.sidebar-menu .sidebar-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--accent);
+  border: none;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(43,143,163,0.16);
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms;
+}
+.sidebar-menu .sidebar-close:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(43,143,163,0.18);
+  background: #1f6b75;
+}
+
+/* Slightly increase space for the sidebar content so close button doesn't overlap */
+.sidebar-menu {
+  padding-top: 3.2rem; /* leaves visual breathing room under close button */
+}
+
+.card {
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(76,175,80,0.08);
+  border: none;
+  transition: box-shadow 0.3s, transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 44px rgba(34,60,80,0.08);
+}
+
+.card-title {
+  color: #388e3c;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.card-text {
+  color: #444;
+  font-size: 1rem;
+}
+
+/* apply same theme background to all sections for consistent look */
+section {
+  background: var(--services-section-bg);
+  box-shadow: 0 2px 16px rgba(76,175,80,0.04);
+  transition: box-shadow 0.3s;
+}
+
+input.form-control, textarea.form-control {
+  border-radius: 16px;
+  border: 1px solid #c8e6c9;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+input.form-control:focus, textarea.form-control:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px #a5d6a7;
+}
+
+label {
+  color: #388e3c;
+  font-weight: 500;
+}
+
+/* Password strength text colors handled by bootstrap utility classes; ensure small spacing */
+#password-strength {
+  min-height: 1.2rem;
+}
+
+.btn-success img[src*="whatsapp"] {
+  vertical-align: middle;
+  margin-top: -2px;
+}
+
+/* service icon / simple logo */
+.service-head { display:flex; align-items:center; }
+.service-icon {
+  width:48px;
+  height:48px;
+  border-radius:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  color:#fff;
+  box-shadow: none;
+  flex: 0 0 48px;
+}
+
+/* color variants for icons */
+.bg-icon-teal { background: linear-gradient(180deg, var(--accent), var(--accent-dark)); }
+.bg-icon-blue { background: linear-gradient(180deg, #3B82F6, #2563EB); }
+.bg-icon-green { background: linear-gradient(180deg, #34D399, #10B981); }
+.bg-icon-purple { background: linear-gradient(180deg, #A78BFA, #7C3AED); }
+.bg-icon-orange { background: linear-gradient(180deg, #FDBA74, #FB923C); }
+
+/* spacing when icon is to the left of title */
+.service-head .card-title { line-height:1; }
+
+/* make icons slightly larger on larger screens */
+@media (min-width: 1200px) {
+  .service-icon { width:56px; height:56px; font-size:26px; border-radius:12px; }
+}
+
+@media (max-width: 900px) {
+  .hero { flex-direction:column; padding:24px; min-height:320px; }
+  .hero .hero-image { flex:1; width:100%; max-width:420px; margin-top:10px; }
+  .services .row.align-items-stretch.g-4 {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    gap: 1.2rem 0;
+  }
+}
+
+/* Services section: deeper blue for contrast */
+#services {
+  background: var(--nav-bg) !important; /* green background */
+  padding: 32px 0;
+  border-radius: 18px;
+  margin-bottom: 28px;
+}
+
+#services h2 {
+  color: #fff !important;  /* white heading on green background */
+}
+
+/* Services cards - white background with dark text */
+#services .card {
+  background: #fff;
+  border-radius: 12px;
+  border: none;
+}
+
+#services .card .card-title,
+#services .card .card-text {
+  color: #333 !important; /* force dark text in cards */
+}
+
+/* Doctor cards: white, circular photo, shadow, modern layout */
+.doctors .card {
+  background: var(--doctor-card-bg);
+  border-radius: 18px;
+  border: var(--doctor-card-border);
+  box-shadow: var(--doctor-card-shadow);
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s, transform 0.18s;
+}
+.doctors .card:hover {
+  box-shadow: 0 16px 48px rgba(43,143,163,0.14);
+  transform: translateY(-4px) scale(1.02);
+}
+.doctors .card-img-top {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 1rem auto;
+  border: 3px solid #e3f0fa;
+  box-shadow: 0 2px 8px rgba(43,143,163,0.10);
+}
+.doctors .card-title {
+  color: var(--accent-dark);
+  font-weight: 600;
+  font-size: 1.13rem;
+  margin-bottom: 0.2rem;
+  text-align: center;
+}
+.doctors .card-text {
+  color: #4b5a6a;
+  font-size: 0.98rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Doctors and Staff sections: green background + white text like navbar */
+.doctors, .staff {
+  background: var(--nav-bg) !important;
+  color: #fff;
+  border-radius: 18px;
+  padding-top: 28px;
+  padding-bottom: 28px;
+  box-shadow: 0 6px 28px rgba(20,79,85,0.06);
+}
+
+/* headings and text inside these sections should be white */
+.doctors h2, .staff h2,
+.doctors p, .staff p,
+.doctors .lead, .staff .lead {
+  color: #fff !important;
+}
+
+/* Doctor / Staff cards: keep cards white for contrast, refined layout */
+.doctors .doctor-card,
+.staff .staff-card {
+  background: #fff;
+  color: var(--accent-dark);
+  border-radius: 12px;
+  border: none;
+  padding: 0.85rem;
+}
+
+/* Larger portrait + rounded corners for professional look */
+.doctor-img-lg, .staff-img-lg {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid #f1fbfd;
+  box-shadow: 0 8px 22px rgba(20,79,85,0.06);
+  flex-shrink: 0;
+}
+
+/* Testimonials, Contact, Blog: keep white/blue, subtle shadow */
+.testimonials,
+.contact,
+.blog {
+  background: var(--nav-bg) !important;
+  color: #fff;
+  border-radius: 18px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  box-shadow: 0 6px 28px rgba(20,79,85,0.06);
+}
+
+.testimonials h2,
+.contact h2,
+.blog h2{
+  color: #fff !important;
+}
+
+.top-spacer { padding-top:18px; }
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #e9f2f6;
+}
+::-webkit-scrollbar-thumb {
+  background: #bcdbe4;
+  border-radius: 8px;
+}
+
+/* Hamburger menu button */
+.btn-menu {
+  background: var(--accent) !important;
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 6px 20px rgba(43,143,163,0.12);
+  border-radius: 12px;
+  padding: 0.45rem;
+  width:56px;
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.btn-menu:focus, .btn-menu:active, .btn-menu:hover {
+  background: #21718a;
+  color: #fff;
+  outline: none;
+  box-shadow: 0 4px 18px rgba(43,143,163,0.13);
+}
+
+.menu-wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+.menu-wrapper.menu-absolute-corner {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  height: 64px;
+  padding-left: 0;
+  padding-top: 0;
+  background: transparent;
+}
+@media (max-width: 900px) {
+  .menu-wrapper.menu-absolute-corner {
+    height: 56px;
+  }
+}
+
+.menu-wrapper .dropdown-menu {
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(43,143,163,0.13);
+  border: none;
+  margin-top: 0.7rem !important;
+  min-width: 200px;
+  padding: 0.5rem 0;
+}
+
+.menu-wrapper .dropdown-item {
+  font-size: 1.08rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  color: var(--accent-dark);
+  transition: background 0.18s, color 0.18s;
+}
+
+.menu-wrapper .dropdown-item:hover, .menu-wrapper .dropdown-item:focus {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Ensure hamburger inside hero appears above navbar and is fully clickable */
+.menu-wrapper.menu-in-hero {
+  position: absolute !important;
+  left: 16px; /* safe default, index.html inline left/top remain but CSS ensures stacking */
+  top: 12px;
+  z-index: 2405; /* above navbar and overlay so button stays visible */
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+}
+
+/* make sure button is visually prominent and keyboard-focusable */
+.menu-wrapper.menu-in-hero .btn-menu {
+  z-index: 2406;
+  box-shadow: 0 10px 30px rgba(20,79,85,0.12);
+}
+
+/* Sidebar hamburger menu effect */
+.sidebar-menu-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(30,40,60,0.18);
+  z-index: 2390; /* place overlay above navbar so it visibly dims page when open */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.sidebar-menu-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 270px;
+  background: #fff;
+  box-shadow: 2px 0 32px rgba(43,143,163,0.13);
+  z-index: 2395; /* sit above navbar but under menu button */
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(.7,.2,.2,1);
+  display: flex;
+  flex-direction: column;
+  padding: 2.2rem 1.2rem 1.2rem 1.2rem;
+}
+.sidebar-menu.active {
+  transform: translateX(0);
+}
+.sidebar-menu .sidebar-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--accent);
+  border: none;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(43,143,163,0.16);
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms;
+}
+.sidebar-menu .sidebar-close:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(43,143,163,0.18);
+  background: #1f6b75;
+}
+.sidebar-menu .sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2.2rem;
+}
+.sidebar-menu .sidebar-logo img {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid #e3f0fa;
+}
+.sidebar-menu .sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.sidebar-menu .sidebar-links a {
+  font-size: 1.13rem;
+  color: var(--accent-dark);
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  transition: background 0.18s, color 0.18s;
+}
+.sidebar-menu .sidebar-links a:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Professional service image style (used in services.html) */
+.service-image {
+  width: 100%;
+  height: 200px; /* increased from 160px */
+  object-fit: cover;             
+  display: block;
+  border-radius: 0;           /* removed rounded corners */
+  border: none;               /* removed border */
+  box-shadow: none;           /* removed shadow */
+  transition: transform 280ms ease;
+  background: transparent;    /* removed background color */
+  margin: 0;                 /* removed margins */
+  padding: 0;               /* removed padding */
+}
+
+.service-image:hover {
+  transform: scale(1.02);    /* subtle scale on hover */
+}
+
+/* Service text color updates */
+.service-detail h1, 
+.service-detail h2, 
+.service-detail h3,
+.service-detail .lead,
+.service-detail p {
+  color: #ffffff !important;
+}
+
+/* Ensure service container has dark background for white text */
+.service-detail {
+  background: var(--nav-bg);
+  color: #ffffff;
+  padding: 48px 18px;
+  margin: 0;
+}
+
+/* Service detail images - professional aesthetic */
+.service-detail img,
+.service-detail .service-image,
+.service-detail .img-fluid {
+  width: 85%;  /* reduced from 100% */
+  height: 420px;  /* increased height */
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.2);
+  margin: 0 auto; /* center the image */
+  padding: 0;
+  transition: transform 300ms ease;
+}
+
+/* Remove ALL text decoration from service links */
+.service-link,
+.service-link:hover,
+.service-link:focus,
+.service-link:active,
+.service-link *,
+.service-link:hover *,
+.service-link:focus *,
+.service-link:active * {
+  text-decoration: none !important;
+}
+
+/* Ensure image container centers the image */
+.service-detail .media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+}
+
+/* Override any conflicting styles */
+.service-detail .rounded,
+.service-detail .rounded-3,
+.service-detail .card img {
+  border-radius: 16px !important;
+}
+
+/* Book Appointment CTA button */
+.btn-cta-book {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(90deg, var(--accent) 0%, #5ac7d4 100%);
+  color: #fff !important;
+  font-weight: 700;
+  padding: 1rem 1.5rem;
+  border-radius: 28px;
+  border: none;
+  font-size: 1.1rem;
+  box-shadow: 0 12px 34px rgba(43,143,163,0.22);
+  text-decoration: none !important;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.btn-cta-book:hover, 
+.btn-cta-book:focus {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 48px rgba(43,143,163,0.28);
+  background: linear-gradient(90deg, #5ac7d4 0%, var(--accent) 100%);
+  color: #fff !important;
+}
+
+/* Floating call button (bottom-right) */
+#floating-call {
+  position: fixed;
+  right: 18px;
+  bottom: 22px;
+  z-index: 2500;
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, var(--accent) 0%, #5ac7d4 100%);
+  color: #fff !important;
+  box-shadow: 0 12px 36px rgba(43,143,163,0.22);
+  border: none;
+  text-decoration: none;
+  transition: transform 140ms ease, box-shadow 140ms ease, opacity 140ms;
+  font-size: 1.2rem;
+}
+#floating-call:hover,
+#floating-call:focus {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 48px rgba(43,143,163,0.28);
+  opacity: 0.98;
+}
+
+/* Floating WhatsApp button (placed left of call) */
+#floating-whatsapp {
+  position: fixed;
+  right: 92px; /* 18px margin + 64px call button width + 10px gap = 92px */
+  bottom: 22px;
+  z-index: 2500;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #25D366 0%, #128C7E 100%);
+  color: #fff !important;
+  box-shadow: 0 12px 36px rgba(18,140,126,0.18);
+  border: none;
+  text-decoration: none;
+  transition: transform 140ms ease, box-shadow 140ms ease, opacity 140ms;
+  font-size: 1.05rem;
+}
+#floating-whatsapp:hover,
+#floating-whatsapp:focus {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 48px rgba(18,140,126,0.26);
+  opacity: 0.98;
+}
+
+/* Align sizes with call button on very small screens */
+@media (max-width: 520px) {
+  #floating-whatsapp { right: 78px; width:52px; height:52px; }
+  #floating-call { right: 12px; width:56px; height:56px; }
+}
+
+/* On mobile, hide navbar WhatsApp button to avoid duplication (floating icon shown instead) */
+@media (max-width: 991.98px) {
+  .navbar-actions .btn-success {
+    display: none !important;
+  }
+}
+
+/* Mobile: hide full nav, show hamburger on right */
+@media (max-width: 991.98px) {
+  /* smaller navbar for mobile */
+  :root { --navbar-height: 56px; }
+
+  /* ensure navbar uses the variable height (keeps consistent spacing) */
+  .navbar {
+    height: var(--navbar-height);
+    min-height: var(--navbar-height);
+    align-items: center;
+  }
+
+  /* push page content below fixed navbar so heading isn't hidden */
+  body {
+    padding-top: calc(var(--navbar-height) + 6px); /* a small extra gap */
+  }
+
+  .nav-links { display: none !important; }
+  .navbar-hamburger { display: inline-flex !important; }
+  /* ensure actions visible and precede hamburger */
+  .navbar-actions { order: 2; }
+  .nav-links { order: 3; }
+  .navbar-brand { flex: 0 0 auto; }
+  .navbar .container-fluid { display:flex; align-items:center; gap:12px; }
+  /* make navbar actions compact on very small screens */
+  .navbar-actions .d-none.d-md-inline { display: none !important; } /* hide text, keep icons */
+}
+
+/* Mobile layout fixes: ensure navbar stays fixed and above the overlay,
+   sidebar becomes full-screen overlay (under navbar), logo scales down,
+   hero hamburger hidden on mobile to avoid duplication. */
+@media (max-width: 991.98px) {
+  /* Fix navbar to top and keep it above the overlay */
+  .navbar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2600; /* must be above sidebar/menu */
+    width: 100%;
+  }
+
+  /* Reduce logo size to create room for actions */
+  #clinic-logo {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  .navbar .brand-text {
+    font-size: 1.05rem;
+  }
+
+  /* Make sidebar a full-viewport overlay but sit under the navbar */
+  .sidebar-menu {
+    width: 100vw !important;
+    height: calc(100vh - 56px); /* leave room for fixed navbar */
+    top: 56px; /* start below the fixed navbar */
+    left: 0;
+    transform: translateX(-100%);
+    z-index: 2500; /* under navbar (2600) */
+    padding-top: 1.2rem;
+    overflow-y: auto;
+  }
+  .sidebar-menu.active {
+    transform: translateX(0);
+  }
+  /* Darken/cover entire viewport behind menu but under navbar */
+  .sidebar-menu-overlay {
+    z-index: 2490;
+  }
+
+  /* Hide the hero-area hamburger to avoid duplicate hamburger icons */
+  .menu-wrapper.menu-in-hero {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* Ensure navbar hamburger remains mobile-only (existing rules already show it on max-width:991.98px).
+     Keep this explicit rule to avoid accidental display on larger screens. */
+  @media (min-width: 992px) {
+    .navbar-hamburger { display: none !important; }
+  }
+
+  /* Ensure sidebar close button is visible and not covered */
+  .sidebar-menu .sidebar-close {
+    z-index: 2501; /* above sidebar content */
+  }
+
+  /* Prevent overlay menu from hiding content permanently: when open, main content is still visible beneath
+     but page scrolling is locked by JS (openSidebarMenu sets overflow hidden). */
+  body.sidebar-open {
+    /* keep content in place; do not shift or hide it */
+    position: static;
+  }
+
+  /* If you prefer the menu to push content instead of overlaying, uncomment the following block
+     (Option B - alternative). For now we keep Option A (full-viewport overlay under the fixed navbar). */
+  /*
+  .sidebar-menu {
+    position: fixed;
+    left: 0;
+    top: 56px;
+    width: 320px;
+    transform: translateX(-100%);
+  }
+  body.sidebar-open main, body.sidebar-open .hero, body.sidebar-open section {
+    transform: translateX(320px);
+    transition: transform 0.35s ease;
+  }
+  */
+}
+
+/* visual polish: ensure mobile hamburger sits at right end */
+.navbar .navbar-actions { margin-left: auto; display:flex; align-items:center; gap:8px; }
+
+/* Replace previous very-small-screen hiding of brand-text with a compact, truncating heading.
+   This keeps the logo + heading visible on mobile while allowing WhatsApp + language + hamburger
+   to remain visible and prevents the navbar from covering the hero heading (body padding is kept). */
+@media (max-width: 575.98px) {
+  /* smaller logo so header controls fit */
+  #clinic-logo {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  /* show a compact brand heading that truncates if needed */
+  .brand-text,
+  .navbar .brand-text {
+    display: inline-block !important;
+    visibility: visible !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: calc(100% - 140px); /* leave space for actions (adjust if needed) */
+    margin-left: 8px;
+    font-size: 0.95rem;
+    line-height: 1;
+  }
+
+  /* tighten navbar paddings so items fit */
+  .navbar .container-fluid {
+    padding-left: 8px;
+    padding-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  /* keep action buttons compact and prevent them from shrinking */
+  .navbar-actions {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* language buttons compact */
+  .lang-toggle .btn {
+    padding: 0.25rem 0.45rem;
+    font-size: 0.88rem;
+  }
+
+  /* ensure hamburger is visible and aligned right */
+  .navbar-hamburger {
+    display: inline-flex !important;
+    margin-left: 8px !important;
+    z-index: 2700; /* above overlay */
+    flex-shrink: 0;
+  }
+
+  /* preserve page offset so fixed navbar does not overlap hero heading */
+  body {
+    padding-top: calc(var(--navbar-height) + 6px);
+  }
+}
+
+/* Mobile layout: ensure logo + heading + WhatsApp + language + hamburger are all visible.
+   Brand text will shrink/truncate to fit; WhatsApp label forced visible; actions won't wrap. */
+@media (max-width: 991.98px) {
+  /* container should distribute space between brand and actions */
+  .navbar .container-fluid {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* brand container: allow shrink but prevent overflow issues */
+  .navbar-brand {
+    flex: 0 1 auto;
+    min-width: 0; /* allow child to shrink */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* keep logo small on mobile */
+  #clinic-logo {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  /* make brand text take remaining space but truncate if needed */
+  .brand-text, .navbar .brand-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1rem;
+    line-height: 1;
+    display: inline-block;
+  }
+
+  /* ensure actions (WhatsApp + lang + hamburger) do not shrink and remain visible */
+  .navbar-actions {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+    margin-left: 12px;
+  }
+
+  /* Force WhatsApp text to be visible on mobile (override .d-none.d-md-inline) */
+  .navbar-actions .d-none.d-md-inline {
+    display: inline !important;
+    visibility: visible !important;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+  .navbar-actions .btn-success {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.25rem 0.55rem;
+  }
+  .navbar-actions .btn-success img {
+    width: 20px;
+    height: 20px;
+    margin-right: 4px;
+  }
+
+  /* ensure language buttons stay compact */
+  .lang-toggle .btn {
+    padding: 0.25rem 0.45rem;
+    font-size: 0.9rem;
+  }
+
+  /* hamburger visible and fixed at right in actions */
+  .navbar-hamburger {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width:44px;
+    height:44px;
+    margin-left: 4px;
+    flex-shrink: 0;
+    z-index: 2700;
+  }
+
+  /* keep hero below fixed navbar */
+  body {
+    padding-top: calc(var(--navbar-height,56px) + 6px);
+  }
+}
+
+/* Very small screens: tighten spacing but keep everything visible */
+@media (max-width: 575.98px) {
+  .brand-text, .navbar .brand-text {
+    font-size: 0.95rem;
+    max-width: calc(100% - 160px); /* preserve space for actions */
+  }
+  #clinic-logo { width: 40px !important; height: 40px !important; }
+  .navbar-actions .btn-success { padding: 0.18rem 0.45rem; font-size: 0.9rem; }
+  .lang-toggle .btn { padding: 0.2rem 0.35rem; font-size: 0.85rem; }
+}
+
+/* Mobile: make logo flush-left and distribute space so heading remains visible */
+@media (max-width: 991.98px) {
+  /* target the anonymous wrapper inside container-fluid and override its inline styles */
+  .navbar .container-fluid > div {
+    justify-content: space-between !important; /* brand left, actions right */
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    width: 100%;
+    gap: 8px;
+  }
+
+  /* make the brand flush to the left edge and allow it to shrink */
+  .navbar-brand {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    flex: 0 1 auto;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* reduce logo left offset and ensure it sits at the very left */
+  .navbar .logo-container {
+    margin-left: 0 !important;
+  }
+
+  /* brand text truncates so it doesn't push actions */
+  .brand-text,
+  .navbar .brand-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: calc(100% - 140px); /* leaves room for actions; adjust if needed */
+    display: inline-block;
+  }
+}
+
+/* 1) Ensure navbar hamburger is absolutely mobile-only */
+.navbar-hamburger { display: none !important; }
+@media (max-width: 991.98px) {
+  .navbar-hamburger { display: inline-flex !important; align-items:center; justify-content:center; }
+}
+@media (min-width: 992px) {
+  .navbar-hamburger { display: none !important; } /* defensive override for larger viewports */
+}
+
+/* 2) Don't truncate the full site heading on mobile — reduce size and allow wrapping instead */
+@media (max-width: 991.98px) {
+  .brand-text, .navbar .brand-text {
+    white-space: normal !important;    /* allow wrapping */
+    overflow: visible !important;
+    text-overflow: unset !important;
+    max-width: none !important;
+    font-size: 1rem !important;        /* slightly reduced so it fits better */
+    line-height: 1.05;
+    display: inline-block;
+  }
+}
+@media (max-width: 575.98px) {
+  .brand-text, .navbar .brand-text {
+    font-size: 0.92rem !important;
+  }
+}
+
+/* 3) Fix sidebar close button so it is on top and always clickable */
+.sidebar-menu {
+  z-index: 2400 !important; /* ensure sidebar sits above overlay when active */
+}
+.sidebar-menu .sidebar-close {
+  z-index: 2610 !important;   /* very high so it's always clickable */
+  pointer-events: auto !important;
+  top: 10px !important;
+  right: 12px !important;
+}
+
+/* ensure overlay remains under sidebar but still covers page */
+.sidebar-menu-overlay {
+  z-index: 2395 !important;
+}
+
+/* Small accessibility polish: focus style for close button */
+.sidebar-menu .sidebar-close:focus {
+  outline: 3px solid rgba(0,0,0,0.12);
+  transform: translateY(-1px) !important;
+}
+
+/* Slightly larger mobile navbar so content fits comfortably */
+@media (max-width: 991.98px) {
+  /* increase mobile navbar height */
+  :root { --navbar-height: 64px; }
+
+  .navbar {
+    height: var(--navbar-height);
+    min-height: var(--navbar-height);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    align-items: center;
+  }
+
+  /* Give logo a little more room inside the taller navbar */
+  #clinic-logo {
+    width: 64px !important;
+    height: 64px !important;
+  }
+
+  /* Slightly more top offset so fixed navbar doesn't overlap content */
+  body {
+    padding-top: calc(var(--navbar-height) + 8px);
+  }
+
+  /* small container padding tweak so items align vertically */
+  .navbar .container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* Very small screens: preserve the larger navbar but scale down text a touch */
+@media (max-width: 575.98px) {
+  :root { --navbar-height: 64px; }
+  .brand-text, .navbar .brand-text {
+    font-size: 0.92rem !important;
+    line-height: 1.05;
+  }
+  body { padding-top: calc(var(--navbar-height) + 8px); }
+}
+
+/* Service card polish for professional aesthetic */
+.featured-card {
+	transition: transform 220ms ease, box-shadow 220ms ease;
+	overflow: hidden;
+        background: linear-gradient(150deg, #fff 20%, #f9fbfd 98%); /* subtle gradient */
+	border-radius: 12px;
+	box-shadow: 0 8px 28px rgba(20,79,85,0.07);
+       border: 1px solid rgba(20,79,85,0.08); /* more visible border */
+}
+.featured-card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 18px 48px rgba(20,79,85,0.12);
+}
+
+/* logo circle that sits above card body */
+.service-logo {
+	width: 96px;
+	height: 96px;
+	border-radius: 999px;
+	display: block;
+	margin: 18px auto 6px auto;
+	padding: 14px;
+	background: linear-gradient(180deg, #fff 0%, #f7fbfb 100%);
+	border: 1px solid rgba(20,79,85,0.06);
+	box-shadow: 0 6px 18px rgba(20,79,85,0.06);
+	object-fit: contain;
+       font-size: 44px; /* slightly larger emoji */
+       line-height: 1;
+}
+
+/* keep card-body spacing consistent */
+.featured-card .card-body {
+	padding: 1.1rem 1rem;
+}
+
+/* title spacing and ellipsis for long labels */
+.featured-card .card-title {
+	font-size: 1.05rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* card text */
+.featured-card .card-text {
+	color: rgba(34,34,34,0.86);
+	font-size: 0.95rem;
+	margin-top: 0.4rem;
+}
+
+/* Footer */
+.site-footer {
+  background: linear-gradient(180deg, #083837 0%, #0f5e60 100%);
+  color: #e6f7f7;
+  padding: 48px 20px;
+  margin-top: 48px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+.site-footer .container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.footer-column h4 {
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 1.05rem;
+}
+.footer-logo {
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.footer-logo img { width:56px; height:56px; object-fit:cover; border-radius:8px; }
+.footer-about { color: rgba(230,247,247,0.95); font-size:0.95rem; line-height:1.5; }
+.footer-links a {
+  display:block;
+  color: rgba(230,247,247,0.92);
+  text-decoration:none;
+  margin:6px 0;
+  font-weight:500;
+}
+.footer-links a:hover { color:#fff; text-decoration:underline; }
+
+.footer-contact p { margin:6px 0; color: rgba(230,247,247,0.95); font-size:0.95rem; }
+
+.footer-newsletter form { display:flex; gap:8px; align-items:center; }
+.footer-newsletter input[type="email"] {
+  flex:1;
+  padding: .6rem .8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+}
+.footer-newsletter input::placeholder { color: rgba(255,255,255,0.7); }
+.footer-newsletter button {
+  padding: .55rem .9rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(90deg,#5ac7d4 0%, #2b8fa3 100%);
+  color:#fff;
+  font-weight:700;
+}
+
+.footer-social { display:flex; gap:10px; margin-top:12px; }
+.footer-social a {
+  width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center;
+  background: rgba(255,255,255,0.06); color:#fff; border-radius:10px; text-decoration:none;
+}
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 20px;
+  padding-top: 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color: rgba(230,247,247,0.75);
+  font-size: 0.92rem;
+}
+
+/* Responsive footer */
+@media (max-width: 900px) {
+  .site-footer .container { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .site-footer .container { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap:10px; text-align:center; }
+}

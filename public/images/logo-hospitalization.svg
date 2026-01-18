@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" role="img" aria-labelledby="title">
+  <title id="title">Hospitalization</title>
+  <rect width="200" height="200" rx="32" fill="#FF8A65"/>
+  <text x="100" y="112" text-anchor="middle" font-family="Segoe UI, Arial" font-size="48" fill="#fff" font-weight="700">H</text>
+</svg>
