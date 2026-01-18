@@ -403,4 +403,41 @@ document.addEventListener('DOMContentLoaded', function () {
       setTimeout(() => { if (footerMsg) footerMsg.textContent = ''; }, 4000);
     });
   }
+
+  (function () {
+    const nav = document.getElementById('mainNavbar');
+    if (!nav) return;
+
+    let lastScroll = window.pageYOffset || document.documentElement.scrollTop;
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+      const current = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (current > lastScroll && current > 100) {
+            // scrolling down
+            nav.classList.add('navbar-hidden');
+          } else {
+            // scrolling up
+            nav.classList.remove('navbar-hidden');
+          }
+          lastScroll = current <= 0 ? 0 : current;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Ensure navbar is visible when sidebar/menu opens (non-intrusive attempt)
+    const sidebar = document.getElementById('sidebarMenu');
+    if (sidebar) {
+      new MutationObserver(() => {
+        if (sidebar.classList.contains('open') || sidebar.classList.contains('show')) {
+          nav.classList.remove('navbar-hidden');
+        }
+      }).observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+    }
+  })();
 });
