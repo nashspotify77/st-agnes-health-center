@@ -22,6 +22,46 @@
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="translate.js"></script>
+
+    <!-- Additional CSS for fixed navbar -->
+    <style>
+        /* Make navbar fixed and animatable */
+        .navbar.site-nav-fixed { position: fixed !important; top: 0; left: 0; right: 0; z-index: 1030;
+          transition: transform 280ms ease-in-out, box-shadow 280ms ease-in-out; -webkit-transition: transform 280ms ease-in-out; }
+        /* Hidden state (slides up) */
+        .navbar.site-nav-fixed.nav-up { transform: translateY(-110%); box-shadow: none; }
+        /* Visible state (slight shadow for separation) */
+        .navbar.site-nav-fixed { transform: translateY(0); box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+
+        /* Default navbar height/padding (desktop) */
+        body { padding-top: 64px; } /* reserve space so content doesn't jump */
+        .navbar.site-nav-fixed { padding-top: 8px; padding-bottom: 8px; height: 56px; }
+
+        /* Mobile: slightly increased navbar vertical space */
+        @media (max-width: 767.98px) {
+          body { padding-top: 78px; } /* match mobile navbar height */
+          .navbar.site-nav-fixed { padding-top: 12px; padding-bottom: 12px; height: 72px; }
+          .navbar .navbar-brand .brand-text { font-size: 1.1rem; } /* keep brand readable */
+          /* ensure navbar actions wrap nicely */
+          .navbar-actions { gap: 8px; }
+        }
+
+        /* Round the clinic logo in the navbar and force a consistent size */
+        .navbar .navbar-brand .logo-container {
+          display: inline-block;
+          overflow: hidden;
+          border-radius: 8px;
+        }
+        .navbar .navbar-brand #clinic-logo {
+          display: block;
+          border-radius: 8px;
+          max-height: 40px;
+          width: auto;
+        }
+
+        /* preserve smooth class transition if present */
+        .smooth { will-change: transform; }
+    </style>
 </head>
 <body>
   <!-- Sidebar overlay and sidebar (for hamburger menu) -->
@@ -40,7 +80,8 @@
     </div>
   </nav>
   <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light top-spacer smooth" style="position:relative;">
+<nav class="navbar navbar-expand-lg navbar-light bg-light top-spacer smooth site-nav-fixed">
+    <!-- removed inline position:relative; — now handled by CSS -->
     <div class="container-fluid d-flex align-items-center position-relative" style="padding-left:0;padding-right:0;margin-left:0;">
         <!-- removed hamburger from navbar; it will appear in the hero area -->
         <div style="padding-left:16px;width:100%;display:flex;align-items:center;justify-content:flex-start;gap:20px;">
@@ -96,19 +137,18 @@
 			<p>Contact: +237 6 71 45 71 43</p>
 			<p>Open: Mon-Sun 24/7</p>
 		</div>
-
-		<!-- Primary scheduling CTA -->
-		<div class="mt-4">
-			<a href="appointment.html" class="btn-cta-book" data-i18n="btn.book" data-i18n-attr="title:btn.book">
-				<!-- text replaced by translation -->
- 			<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                     <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                 </svg>
- 			</a>
- 		</div>
 	</div>
 	<div class="hero-image">
 		<img src="images/clinic.jpg" alt="Clinic building" class="trapezoid-left">
+	</div>
+
+	<!-- moved CTA here so clinic image appears above the appointment button -->
+	<div class="hero-cta mt-3" style="width:100%;display:flex;justify-content:flex-start;">
+		<a href="appointment.html" class="btn-cta-book" data-i18n="btn.book" data-i18n-attr="title:btn.book" title="Book an appointment">
+ 			<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                 <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+ 		</a>
 	</div>
 </section>
 
@@ -317,7 +357,7 @@
     <section id="blog" class="blog">
         <div class="container">
             <h2 class="text-center mb-4" id="blog-title">Health Tips & News</h2>
-            <div class="row">
+            <div class="row g-4">
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
@@ -425,13 +465,62 @@
   </div>
 </div>
 
-<!-- Floating call button -->
-<a id="floating-call" href="tel:+237671457143" class="btn btn-primary" aria-label="Call">
-	<span style="font-size:1.6rem;line-height:1;">📞</span>
-</a>
+<!-- Floating buttons (WhatsApp above call) -->
 <a id="floating-whatsapp" href="https://wa.me/237671457143" class="btn btn-success" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer" title="WhatsApp">
 	<img src="images/whatsapp.png" alt="WhatsApp" style="height:22px;width:22px;object-fit:contain;">
 </a>
+
+<a id="floating-call" href="tel:+237671457143" class="btn btn-primary" aria-label="Call">
+	<span style="font-size:1.6rem;line-height:1;">📞</span>
+</a>
+
+<!-- Add scroll hide/show script (placed before existing script includes) -->
+<script>
+  (function(){
+    const nav = document.querySelector('.navbar.site-nav-fixed');
+    if (!nav) return;
+    let lastY = window.scrollY || 0;
+    let ticking = false;
+
+    const onScroll = () => {
+      const currentY = window.scrollY || 0;
+      // small threshold to avoid flicker
+      if (Math.abs(currentY - lastY) < 8 && currentY < 100) {
+        lastY = currentY;
+        ticking = false;
+        return;
+      }
+
+      if (currentY > lastY && currentY > 120) {
+        nav.classList.add('nav-up'); // scrolling down -> hide
+      } else {
+        nav.classList.remove('nav-up'); // scrolling up -> show
+      }
+      lastY = currentY;
+      ticking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // ensure correct state on load/resize
+    window.addEventListener('resize', () => {
+      // reapply body padding to match computed navbar height
+      const h = nav.getBoundingClientRect().height || (window.innerWidth < 768 ? 72 : 56);
+      document.body.style.paddingTop = h + 'px';
+    });
+
+    // set initial body padding to computed height
+    document.addEventListener('DOMContentLoaded', () => {
+      const h = nav.getBoundingClientRect().height || (window.innerWidth < 768 ? 72 : 56);
+      document.body.style.paddingTop = h + 'px';
+    });
+  })();
+</script>
 
 <!-- Bootstrap JS and Custom JS -->
     <script src="js/bootstrap.bundle.min.js"></script>
