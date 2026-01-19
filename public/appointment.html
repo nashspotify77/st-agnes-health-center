@@ -9,17 +9,15 @@
   <link href="styles.css" rel="stylesheet" />
   <style>
     .container { max-width: 900px; margin-top: 40px; }
-    .calendly-wrapper { min-width: 320px; height: 700px; }
 
-    /* New: use id2 (images/id2.jpg) as background for the appointment page */
     .appointment {
       background-image: url('images/id2.jpg');
       background-size: cover;
       background-position: center;
       position: relative;
       padding: 40px 0;
+      min-height: 100vh;
     }
-    /* subtle dark overlay so Calendly widget remains readable */
     .appointment::before {
       content: "";
       position: absolute;
@@ -27,8 +25,12 @@
       background: rgba(0,0,0,0.28);
       pointer-events: none;
     }
-    /* ensure container content sits above overlay */
     .appointment .container { position: relative; z-index: 2; }
+    
+    .calendly-inline-widget {
+      min-width: 320px;
+      height: 800px;
+    }
   </style>
 </head>
 <body>
@@ -40,13 +42,8 @@
 
       <h2 class="text-center mb-4" data-i18n="appointment-title">Schedule Appointment</h2>
 
-      <!-- Calendly inline widget -->
-      <div class="calendly-wrapper">
-        <div class="calendly-inline-widget" data-url="https://calendly.com/brandontnashong/30min" style="min-width:320px;height:700px;"></div>
-      </div>
-
-      <!-- Calendly loader (must match CSP - server must allow assets.calendly.com and *.calendly.com) -->
-      <script src="https://assets.calendly.com/assets/external/widget.js" async defer></script>
+      <!-- Calendly inline widget - embeds calendar directly -->
+      <div class="calendly-inline-widget" data-url="https://calendly.com/stagneshealthcentre1/30min"></div>
     </div>
   </section>
 
@@ -97,17 +94,15 @@
 
   <script src="js/bootstrap.bundle.min.js" defer></script>
   <script src="lang.js" defer></script>
+  <script src="https://assets.calendly.com/assets/external/widget.js"></script>
 
   <script>
-    // small DOM cleanup script
     document.addEventListener('DOMContentLoaded', function(){
       ['#sidebarMenu','#sidebarMenuOverlay','.menu-wrapper','.navbar','#mainMenuBtn'].forEach(s=>{
         document.querySelectorAll(s).forEach(el=>el?.parentNode?.removeChild(el));
       });
+      document.getElementById('footer-year').textContent = new Date().getFullYear();
     });
-  </script>
-  <script>
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

@@ -103,7 +103,7 @@ app.post('/appointment', async (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER || 'no-reply@example.com',
-    to: process.env.NOTIFY_EMAIL || 'brandontnashong@gmail.com',
+    to: process.env.NOTIFY_EMAIL || 'stagneshealthcentre1@gmail.com',
     subject: 'New Appointment Request - St. Agnes Health Centre',
     text: `Name: ${appointment.fullName}\nEmail: ${appointment.email}\nPhone: ${appointment.phone || 'N/A'}\nMessage: ${appointment.message || 'N/A'}`
   };
